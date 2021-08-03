@@ -1,9 +1,16 @@
 import './App.css';
+import PeopleList from './hooks/PeopleList';
 import useCounter from './hooks/useCounter';
 
 function App() {
   const number = useCounter();
-  return <div className='App'>{number}</div>;
+  return (
+    <div className='App'>
+      {number}
+      <PeopleList />
+      <PeopleList />
+    </div>
+  );
 }
 
 export default App;
