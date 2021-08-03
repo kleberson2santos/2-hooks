@@ -3,7 +3,7 @@ import PeopleList from './hooks/PeopleList';
 import useCounter from './hooks/useCounter';
 
 function App() {
-  const number = useCounter();
+  const number = useCounter(9);
   return (
     <div className='App'>
       {number}
