@@ -1,35 +1,48 @@
-import { useEffect, useRef } from 'react';
+import { useReducer } from 'react';
 import './App.css';
-import PeopleList from './hooks/PeopleList';
-import useCounter from './hooks/useCounter';
+
+interface InitialState {
+  count: number;
+}
+
+type Action = { type: 'DECREMENT' } | { type: 'INCREMENT'; payload: number };
+
+const initialState: InitialState = {
+  count: 1,
+};
+
+function reducer(state: InitialState, action: Action): InitialState {
+  // return { count: state.count + action };
+  switch (action.type) {
+    case 'INCREMENT':
+      return { count: state.count + action.payload };
+    case 'DECREMENT':
+      return { count: state.count - 1 };
+    default:
+      return state;
+  }
+}
 
 function App() {
-  const number = useCounter(9);
-  // const counter = { current: 2 };
-  const counter = useRef(2);
-  const div = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // setTimeout(() => {
-    //   counter.current = 5;
-    //   console.log('o valor de counter foi alterado');
-    // }, 2000);
-
-    console.log(div);
-
-    if (div.current) {
-      div.current.style.backgroundColor = '#09f';
-    }
-  }, []);
-
-  // counter.current = 5;
-
+  const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <div className='App' ref={div}>
-      {number}
-      <div style={{ backgroundColor: 'peachpuff' }}>{counter.current}</div>
-      <PeopleList />
-      <PeopleList />
+    <div className='App'>
+      <div style={{ backgroundColor: 'peachpuff' }}>{state.count}</div>
+      <button
+        onClick={() => {
+          // dispatch(1);
+          dispatch({ type: 'INCREMENT', payload: 5 });
+        }}
+      >
+        Acrescer
+      </button>
+      <button
+        onClick={() => {
+          dispatch({ type: 'DECREMENT' });
+        }}
+      >
+        Decrescer
+      </button>
     </div>
   );
 }
